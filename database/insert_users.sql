@@ -17,3 +17,4 @@ INSERT INTO users (username, email, password_hash, role, full_name, is_active) V
 -- Verify users were created
 SELECT username, email, role, full_name, is_active FROM users;
 
+

@@ -121,3 +121,4 @@ else:
     print("  mysql -u root -p healthcare_analytics < database/auth_schema.sql")
     print("  python create_users_direct.py")
 
+

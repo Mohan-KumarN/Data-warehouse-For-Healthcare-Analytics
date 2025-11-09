@@ -193,3 +193,4 @@ phone = decrypt_pii(encrypted_phone)
 6. Add account lockout after failed attempts
 7. Implement OAuth2 for external authentication
 
+

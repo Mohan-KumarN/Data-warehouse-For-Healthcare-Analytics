@@ -386,24 +386,42 @@ async function loadAnalytics(type) {
 }
 
 async function loadDiseasesAnalytics(query = '') {
-    const qs = query ? `?${query}` : '';
+    // Get category filter
+    const categoryFilter = document.getElementById('filterDiseaseCategory');
+    const category = categoryFilter ? categoryFilter.value : '';
+    const noteElement = document.getElementById('cancerFilterNote');
+    
+    // Update note for cancer filter
+    if (category === 'Oncology' && noteElement) {
+        noteElement.textContent = '(Showing Top 3 Cancers)';
+        noteElement.style.color = '#e74c3c';
+    } else if (noteElement) {
+        noteElement.textContent = '';
+    }
+    
+    let qs = query ? `?${query}` : '';
+    if (category) {
+        qs += qs ? `&category=${encodeURIComponent(category)}` : `?category=${encodeURIComponent(category)}`;
+    }
+    
     const diseases = await apiCall(`analytics/diseases${qs}`);
     
-    // Chart
+    // Chart - show top 3 for Oncology, top 15 for others
+    const chartData = category === 'Oncology' ? diseases.slice(0, 3) : diseases.slice(0, 15);
     const ctx = document.getElementById('diseasesChart').getContext('2d');
     if (charts.diseases) {
         charts.diseases.destroy();
     }
     
-    const top10 = diseases.slice(0, 10);
+    // Use consistent color for all diseases
     charts.diseases = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: top10.map(d => d.name),
+            labels: chartData.map(d => d.name),
             datasets: [{
                 label: 'Occurrences',
-                data: top10.map(d => d.occurrence),
-                backgroundColor: '#667eea'
+                data: chartData.map(d => d.occurrence),
+                backgroundColor: '#667eea' // Consistent blue for all diseases
             }]
         },
         options: {
@@ -414,21 +432,29 @@ async function loadDiseasesAnalytics(query = '') {
                 x: {
                     beginAtZero: true
                 }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
             }
         }
     });
     
-    // Table
+    // Table - show only top 3 for Oncology, all others for general view
+    const tableData = category === 'Oncology' ? diseases.slice(0, 3) : diseases;
     const tbody = document.getElementById('diseasesTableBody');
-    tbody.innerHTML = diseases.map(d => `
+    tbody.innerHTML = tableData.map(d => {
+        return `
         <tr>
-            <td>${d.name}</td>
+            <td><strong>${d.name}</strong></td>
             <td>${d.category}</td>
             <td><span class="badge badge-${d.severity.toLowerCase()}">${d.severity}</span></td>
             <td>${formatNumber(d.occurrence)}</td>
             <td>${formatCurrency(d.avg_cost)}</td>
         </tr>
-    `).join('');
+    `;
+    }).join('');
 }
 
 async function loadHospitalsAnalytics(query = '') {
@@ -939,6 +965,14 @@ function populateFilterOptions() {
         diseaseSelect.innerHTML = '<option value="">All</option>';
         (metadataOptions.diseases || []).forEach(disease => {
             diseaseSelect.innerHTML += `<option value="${disease}">${disease}</option>`;
+        });
+    }
+    
+    // Add event listener for disease category filter
+    const diseaseCategoryFilter = document.getElementById('filterDiseaseCategory');
+    if (diseaseCategoryFilter) {
+        diseaseCategoryFilter.addEventListener('change', () => {
+            loadDiseasesAnalytics();
         });
     }
 

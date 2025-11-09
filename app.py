@@ -279,17 +279,47 @@ def get_disease_analytics():
     cursor = conn.cursor(dictionary=True)
     
     filters, params = build_visit_filters(request.args)
-    where_clauses = ["pv.visit_id IS NOT NULL"]
+    
+    # Check if filtering by category
+    category_filter = request.args.get('category', '')
+    
+    # Build WHERE clauses
+    where_clauses = []
+    all_params = []
+    
+    # Category filter
+    if category_filter:
+        where_clauses.append("d.disease_category = %s")
+        all_params.append(category_filter)
+    
+    # Visit filters
     if filters:
         where_clauses.extend(filters)
-    where_sql = f" WHERE {' AND '.join(where_clauses)}" if where_clauses else ""
-
-    limit = request.args.get('limit', 15, type=int)
-
+        if params:
+            all_params.extend(params)
+    
+    # Build WHERE clause string
+    where_sql = ""
+    if where_clauses:
+        where_sql = " WHERE " + " AND ".join(where_clauses)
+    
+    # Limit: if filtering by Oncology, show only top 3, otherwise show 50
+    if category_filter == 'Oncology':
+        limit = 3
+    else:
+        limit = request.args.get('limit', 50, type=int)
+    
+    # Build HAVING clause to filter out diseases with 0 occurrences
+    having_clause = "HAVING occurrence_count > 0"
+    if not category_filter:
+        # For all diseases view, exclude Oncology diseases with 0 occurrences
+        # This is handled in HAVING clause
+        pass
+    
     query = f"""
         SELECT d.disease_name, d.disease_category, d.severity_level,
                COUNT(pv.visit_id) as occurrence_count,
-               AVG(pv.total_cost) as avg_cost
+               COALESCE(AVG(pv.total_cost), 0) as avg_cost
         FROM diseases d
         LEFT JOIN patient_visits pv ON d.disease_id = pv.disease_id
         LEFT JOIN patients p ON pv.patient_id = p.patient_id
@@ -298,11 +328,12 @@ def get_disease_analytics():
         LEFT JOIN date_dimension dd ON pv.visit_date_id = dd.date_id
         {where_sql}
         GROUP BY d.disease_id, d.disease_name, d.disease_category, d.severity_level
-        ORDER BY occurrence_count DESC
+        {having_clause}
+        ORDER BY occurrence_count DESC, d.disease_name ASC
         LIMIT %s
     """
 
-    cursor.execute(query, params + [limit] if params else [limit])
+    cursor.execute(query, all_params + [limit] if all_params else [limit])
     rows = cursor.fetchall()
     cursor.close()
     conn.close()

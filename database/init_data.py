@@ -139,7 +139,27 @@ DISEASES = [
     ('Chronic Kidney Disease', 'Nephrology', 'High', 0.10),
     ('Hypothyroidism', 'Endocrine', 'Medium', 0.12),
     ('Anemia', 'Hematological', 'Medium', 0.30),  # Very common in India
-    ('Diarrhea', 'Digestive', 'Medium', 0.15)
+    ('Diarrhea', 'Digestive', 'Medium', 0.15),
+    # Cancer Diseases - Common in India
+    ('Breast Cancer', 'Oncology', 'Critical', 0.0028),  # Most common cancer in Indian women
+    ('Cervical Cancer', 'Oncology', 'Critical', 0.0018),  # Very common in India
+    ('Oral Cancer', 'Oncology', 'Critical', 0.0025),  # Very common, especially in men
+    ('Lung Cancer', 'Oncology', 'Critical', 0.0015),
+    ('Stomach Cancer', 'Oncology', 'Critical', 0.0012),
+    ('Colorectal Cancer', 'Oncology', 'Critical', 0.0010),
+    ('Liver Cancer', 'Oncology', 'Critical', 0.0008),
+    ('Prostate Cancer', 'Oncology', 'Critical', 0.0006),
+    ('Ovarian Cancer', 'Oncology', 'Critical', 0.0005),
+    ('Blood Cancer (Leukemia)', 'Oncology', 'Critical', 0.0004),
+    ('Lymphoma', 'Oncology', 'Critical', 0.0004),
+    ('Brain Tumor', 'Oncology', 'Critical', 0.0003),
+    ('Thyroid Cancer', 'Oncology', 'High', 0.0005),
+    ('Pancreatic Cancer', 'Oncology', 'Critical', 0.0003),
+    ('Esophageal Cancer', 'Oncology', 'Critical', 0.0004),
+    ('Kidney Cancer', 'Oncology', 'Critical', 0.0003),
+    ('Bladder Cancer', 'Oncology', 'High', 0.0004),
+    ('Skin Cancer', 'Oncology', 'High', 0.0002),
+    ('Bone Cancer', 'Oncology', 'Critical', 0.0001)
 ]
 
 # Real Indian doctor specializations with realistic fees (min, max in INR)
@@ -188,6 +208,14 @@ TREATMENTS = [
     ('Bypass Surgery', 'Surgical', 150000, 300000),
     ('Angioplasty', 'Cardiology', 80000, 200000),
     ('Chemotherapy', 'Oncology', 50000, 150000),
+    ('Radiation Therapy', 'Oncology', 80000, 200000),
+    ('Immunotherapy', 'Oncology', 200000, 500000),
+    ('Targeted Therapy', 'Oncology', 150000, 400000),
+    ('Cancer Surgery', 'Oncology', 100000, 300000),
+    ('Bone Marrow Transplant', 'Oncology', 1500000, 3000000),
+    ('Hormone Therapy', 'Oncology', 5000, 15000),
+    ('Biopsy', 'Diagnostic', 3000, 10000),
+    ('PET Scan', 'Diagnostic', 15000, 25000),
     ('Physiotherapy', 'Rehabilitation', 500, 2000),
     ('Dialysis', 'Nephrology', 2000, 5000),
     ('Endoscopy', 'Diagnostic', 3000, 8000),
@@ -223,7 +251,22 @@ MEDICATIONS = [
     ('Ciprofloxacin 500mg', 'Antibiotic', 20, 80),
     ('Pantoprazole 40mg', 'Gastric', 10, 30),
     ('Losartan 50mg', 'Hypertension', 8, 25),
-    ('Glibenclamide 5mg', 'Diabetes', 3, 10)
+    ('Glibenclamide 5mg', 'Diabetes', 3, 10),
+    # Cancer Medications
+    ('Paclitaxel Injection', 'Oncology', 5000, 15000),
+    ('Cisplatin Injection', 'Oncology', 2000, 6000),
+    ('Doxorubicin Injection', 'Oncology', 3000, 8000),
+    ('Tamoxifen 20mg', 'Oncology', 50, 150),
+    ('Imatinib 400mg', 'Oncology', 5000, 12000),
+    ('Rituximab Injection', 'Oncology', 30000, 60000),
+    ('Trastuzumab Injection', 'Oncology', 50000, 100000),
+    ('Bevacizumab Injection', 'Oncology', 40000, 80000),
+    ('Letrozole 2.5mg', 'Oncology', 100, 300),
+    ('Anastrozole 1mg', 'Oncology', 80, 250),
+    ('Capecitabine 500mg', 'Oncology', 200, 600),
+    ('Gemcitabine Injection', 'Oncology', 3000, 7000),
+    ('Oxaliplatin Injection', 'Oncology', 4000, 9000),
+    ('Etoposide Injection', 'Oncology', 2000, 5000)
 ]
 
 # Real Indian pharmaceutical manufacturers
@@ -642,9 +685,9 @@ def main():
     print("Summary:")
     print("- 100 Real Indian Hospitals (AIIMS, Apollo, Fortis, etc.)")
     print("- 300 Doctors with Indian names")
-    print("- 20 Common Indian Diseases with prevalence data")
-    print("- 20 Treatments with realistic Indian costs")
-    print("- 15 Medications with actual Indian prices")
+    print("- 39 Common Indian Diseases including 19 Cancer types with prevalence data")
+    print("- 28 Treatments including 8 Cancer-specific treatments with realistic Indian costs")
+    print("- 29 Medications including 14 Cancer medications with actual Indian prices")
     print("- 2000 Patients with Indian names")
     print("- 10000 Patient Visits with realistic patterns")
     print()

@@ -210,10 +210,22 @@
             <div id="diseases-analytics" class="analytics-content active">
                 <div class="chart-card full-width">
                     <div class="chart-header">
-                        <h3>Top Diseases Analysis</h3>
-                        <button class="btn-icon" onclick="exportChart('diseasesChart', 'diseases_analysis')" title="Export chart as image">
-                            <i class="fas fa-download"></i>
-                        </button>
+                        <h3>Top Diseases Analysis <span id="cancerFilterNote" style="font-size: 0.8rem; color: #666; font-weight: normal; margin-left: 10px;"></span></h3>
+                        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                            <select id="filterDiseaseCategory" style="padding: 0.5rem 1rem; border-radius: 6px; border: 2px solid #667eea; font-size: 0.9rem; min-width: 200px; background: white; cursor: pointer;">
+                                <option value="">All Categories</option>
+                                <option value="Oncology">🔬 Oncology (Cancer) - Top 3</option>
+                                <option value="Cardiovascular">❤️ Cardiovascular</option>
+                                <option value="Infectious">🦠 Infectious</option>
+                                <option value="Respiratory">🫁 Respiratory</option>
+                                <option value="Metabolic">⚖️ Metabolic</option>
+                                <option value="Digestive">🍽️ Digestive</option>
+                                <option value="Neurological">🧠 Neurological</option>
+                            </select>
+                            <button class="btn-icon" onclick="exportChart('diseasesChart', 'diseases_analysis')" title="Export chart as image">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
                     </div>
                     <canvas id="diseasesChart"></canvas>
                 </div>

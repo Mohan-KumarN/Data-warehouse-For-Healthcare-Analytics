@@ -45,3 +45,4 @@ CREATE INDEX IF NOT EXISTS idx_jobs_status ON ingestion_jobs(status);
 CREATE INDEX IF NOT EXISTS idx_jobs_created ON ingestion_jobs(created_at);
 
 
+
