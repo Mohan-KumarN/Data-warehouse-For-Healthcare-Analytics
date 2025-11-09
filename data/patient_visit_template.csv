@@ -1,0 +1,3 @@
+patient_name,age,gender,phone,email,address,city,state,pincode,doctor_name,specialization,hospital_name,hospital_type,hospital_state,visit_type,visit_date,total_cost,payment_method,diagnosis
+Rajesh Sharma,45,Male,+91-9876543210,rajesh.sharma@email.com,123 MG Road Andheri,Mumbai,Maharashtra,400053,Dr. Priya Nair,Cardiology,Apollo Hospitals Mumbai,Private,Maharashtra,OPD,2024-05-15,2500,UPI,Routine heart checkup
+

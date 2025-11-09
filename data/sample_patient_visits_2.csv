@@ -1,0 +1,30 @@
+patient_name,age,gender,phone,email,address,city,state,pincode,doctor_name,specialization,hospital_name,hospital_type,hospital_state,visit_type,visit_date,total_cost,payment_method,diagnosis
+Rajesh Sharma,45,Male,+91-9876543210,rajesh.sharma@email.com,123 MG Road Connaught Place,New Delhi,Delhi,110001,Dr. Priya Nair,Cardiology,AIIMS Delhi,Government,Delhi,OPD,2024-01-10,1800,Cash,Cardiac consultation
+Anjali Reddy,29,Female,+91-9876543211,anjali.reddy@email.com,456 Hauz Khas,New Delhi,Delhi,110016,Dr. Amit Kumar,General Medicine,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-01-15,1500,UPI,General health checkup
+Rahul Singh,35,Male,+91-9876543212,rahul.singh@email.com,789 Saket,New Delhi,Delhi,110017,Dr. Vikram Iyer,Orthopedics,Max Hospital Saket,Private,Delhi,OPD,2024-01-20,2200,Insurance,Knee pain treatment
+Kavita Verma,42,Female,+91-9876543213,kavita.verma@email.com,321 Dwarka,New Delhi,Delhi,110075,Dr. Sneha Shah,Gynecology,Fortis Hospital Delhi,Private,Delhi,OPD,2024-02-05,2000,Card,Women's health checkup
+Arjun Mehta,38,Male,+91-9876543214,arjun.mehta@email.com,654 Rohini,New Delhi,Delhi,110085,Dr. Karan Joshi,Pediatrics,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-02-12,1700,Cash,Child health consultation
+Meera Desai,31,Female,+91-9876543215,meera.desai@email.com,987 Vasant Kunj,New Delhi,Delhi,110070,Dr. Rohan Nair,Cardiology,Sir Ganga Ram Hospital,Private,Delhi,OPD,2024-02-18,2800,UPI,Heart health screening
+Divya Rao,26,Female,+91-9876543216,divya.rao@email.com,147 Janakpuri,New Delhi,Delhi,110058,Dr. Neha Menon,Dermatology,Max Hospital Saket,Private,Delhi,OPD,2024-03-01,1600,Card,Skin treatment
+Siddharth Gupta,44,Male,+91-9876543217,siddharth.gupta@email.com,258 Laxmi Nagar,New Delhi,Delhi,110092,Dr. Shreya Pillai,Neurology,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-03-08,3500,Insurance,Neurological examination
+Aditya Malhotra,51,Male,+91-9876543218,aditya.malhotra@email.com,369 Greater Kailash,New Delhi,Delhi,110048,Dr. Anita Banerjee,Cardiology,Fortis Hospital Delhi,Private,Delhi,Emergency,2024-03-15,6500,UPI,Chest pain emergency
+Ravi Krishnan,33,Male,+91-9876543219,ravi.krishnan@email.com,741 Pitampura,New Delhi,Delhi,110034,Dr. Kiran Das,Pulmonology,Max Hospital Saket,Private,Delhi,OPD,2024-03-22,2400,Cash,Asthma management
+Mohit Agarwal,28,Male,+91-9876543220,mohit.agarwal@email.com,852 Paschim Vihar,New Delhi,Delhi,110063,Dr. Riya Chatterjee,General Medicine,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-04-05,1300,UPI,Fever consultation
+Nikhil Jain,39,Male,+91-9876543221,nikhil.jain@email.com,963 Mayur Vihar,New Delhi,Delhi,110091,Dr. Sunita Ghosh,Gastroenterology,Fortis Hospital Delhi,Private,Delhi,OPD,2024-04-12,2700,Card,Digestive health check
+Suresh Reddy,47,Male,+91-9876543222,suresh.reddy@email.com,159 Rajouri Garden,New Delhi,Delhi,110027,Dr. Manisha Mukherjee,Endocrinology,Max Hospital Saket,Private,Delhi,OPD,2024-04-20,2600,Insurance,Diabetes management
+Deepak Kumar,36,Male,+91-9876543223,deepak.kumar@email.com,357 Preet Vihar,New Delhi,Delhi,110092,Dr. Radha Roy,Orthopedics,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-05-01,2100,Cash,Back pain treatment
+Vishal Singh,41,Male,+91-9876543224,vishal.singh@email.com,468 Karol Bagh,New Delhi,Delhi,110005,Dr. Swati Jain,Cardiology,Sir Ganga Ram Hospital,Private,Delhi,OPD,2024-05-08,3000,UPI,Cardiac evaluation
+Gaurav Sharma,30,Male,+91-9876543225,gaurav.sharma@email.com,579 Noida,Uttar Pradesh,Uttar Pradesh,201301,Dr. Lakshmi Agarwal,ENT,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-05-15,1900,Card,Ear nose throat check
+Anil Patel,53,Male,+91-9876543226,anil.patel@email.com,680 Gurgaon,Haryana,Haryana,122001,Dr. Sarita Goyal,Oncology,Fortis Hospital Delhi,Private,Delhi,OPD,2024-05-22,4800,Insurance,Cancer screening
+Manoj Kumar,34,Male,+91-9876543227,manoj.kumar@email.com,791 Faridabad,Haryana,Haryana,121001,Dr. Geeta Goel,General Medicine,Max Hospital Saket,Private,Delhi,OPD,2024-06-01,1400,Cash,General consultation
+Pankaj Mehta,40,Male,+91-9876543228,pankaj.mehta@email.com,802 Ghaziabad,Uttar Pradesh,Uttar Pradesh,201001,Dr. Madhuri Bansal,Cardiology,Apollo Hospitals Delhi,Private,Delhi,Emergency,2024-06-08,5800,UPI,Heart emergency
+Ashok Verma,48,Male,+91-9876543229,ashok.verma@email.com,913 Meerut,Uttar Pradesh,Uttar Pradesh,250001,Dr. Rekha Arora,Neurology,Fortis Hospital Delhi,Private,Delhi,OPD,2024-06-15,3600,Card,Neurological checkup
+Sandeep Reddy,25,Male,+91-9876543230,sandeep.reddy@email.com,124 Panipat,Haryana,Haryana,132103,Dr. Usha Kapoor,Pediatrics,Max Hospital Saket,Private,Delhi,OPD,2024-06-22,1650,Cash,Child health check
+Vinod Iyer,37,Male,+91-9876543231,vinod.iyer@email.com,235 Karnal,Haryana,Haryana,132001,Dr. Kamala Khanna,Gynecology,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-07-01,2300,UPI,Women's health
+Ajay Nair,32,Male,+91-9876543232,ajay.nair@email.com,346 Ambala,Haryana,Haryana,133001,Dr. Indira Das,Dermatology,Fortis Hospital Delhi,Private,Delhi,OPD,2024-07-08,1700,Insurance,Skin treatment
+Sunil Menon,45,Male,+91-9876543233,sunil.menon@email.com,457 Sonipat,Haryana,Haryana,131001,Dr. Lata Biswas,Gastroenterology,Max Hospital Saket,Private,Delhi,OPD,2024-07-15,2500,Cash,Stomach issues
+Mahesh Pillai,29,Male,+91-9876543234,mahesh.pillai@email.com,568 Hisar,Haryana,Haryana,125001,Dr. Sushma Chatterjee,Pulmonology,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-07-22,2400,UPI,Respiratory check
+Ramesh Banerjee,50,Male,+91-9876543235,ramesh.banerjee@email.com,679 Rohtak,Haryana,Haryana,124001,Dr. Vidya Ghosh,Endocrinology,Fortis Hospital Delhi,Private,Delhi,OPD,2024-08-01,2700,Card,Thyroid checkup
+Dinesh Mukherjee,27,Male,+91-9876543236,dinesh.mukherjee@email.com,780 Yamunanagar,Haryana,Haryana,135001,Dr. Meenakshi Jain,Orthopedics,Max Hospital Saket,Private,Delhi,OPD,2024-08-08,2000,Cash,Joint consultation
+Harish Roy,43,Male,+91-9876543237,harish.roy@email.com,891 Kurukshetra,Haryana,Haryana,136118,Dr. Priya Nair,Cardiology,Apollo Hospitals Delhi,Private,Delhi,OPD,2024-08-15,3100,UPI,Cardiac follow-up
+

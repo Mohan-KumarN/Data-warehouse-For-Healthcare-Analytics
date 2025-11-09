@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Analytics Data Warehouse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-hospital"></i>
+                <span>Healthcare Analytics</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                <li><a href="#analytics" class="nav-link">Analytics</a></li>
+                <li><a href="#patients" class="nav-link">Patients</a></li>
+                <li><a href="#visits" class="nav-link">Visits</a></li>
+                <li><a href="#data-entry" class="nav-link">Data Entry</a></li>
+            </ul>
+            <div class="nav-actions">
+                <span id="userInfo" class="user-info"></span>
+                <button class="btn-logout" onclick="logout()" title="Logout" id="logoutBtn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="section-header">
+                <h1>Dashboard Overview</h1>
+                <p>Comprehensive healthcare analytics and insights</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-patients">0</h3>
+                        <p>Total Patients</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-hospitals">0</h3>
+                        <p>Total Hospitals</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-doctors">0</h3>
+                        <p>Total Doctors</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-visits">0</h3>
+                        <p>Total Visits</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-revenue">₹0</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="avg-visit-cost">₹0</h3>
+                        <p>Avg Visit Cost</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Visits by Type</h3>
+                        <button class="btn-icon" onclick="exportChart('visitsTypeChart', 'visits_by_type')" title="Export chart as image">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    <canvas id="visitsTypeChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Revenue by Payment Method</h3>
+                        <button class="btn-icon" onclick="exportChart('paymentMethodChart', 'revenue_by_payment')" title="Export chart as image">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    <canvas id="paymentMethodChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="section-header">
+                <h1>Advanced Analytics</h1>
+                <p>Deep insights into healthcare data</p>
+            </div>
+
+            <div class="analytics-tabs">
+                <button class="tab-btn active" onclick="showAnalyticsTab('diseases', event)">Diseases</button>
+                <button class="tab-btn" onclick="showAnalyticsTab('hospitals', event)">Hospitals</button>
+                <button class="tab-btn" onclick="showAnalyticsTab('geographic', event)">Geographic</button>
+                <button class="tab-btn" onclick="showAnalyticsTab('temporal', event)">Temporal</button>
+                <button class="tab-btn" onclick="showAnalyticsTab('specializations', event)">Specializations</button>
+                <button class="tab-btn" onclick="showAnalyticsTab('predictions', event)">Predictions</button>
+            </div>
+
+            <div class="filters-panel">
+                <div class="filter-group">
+                    <label>Patient State</label>
+                    <select id="filterPatientState">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Hospital State</label>
+                    <select id="filterHospitalState">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Disease</label>
+                    <select id="filterDisease">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Specialization</label>
+                    <select id="filterSpecialization">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Hospital</label>
+                    <select id="filterHospital">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Visit Type</label>
+                    <select id="filterVisitType">
+                        <option value="">All</option>
+                        <option value="OPD">OPD</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="IPD">IPD</option>
+                        <option value="Follow-up">Follow-up</option>
+                    </select>
+                </div>
+                <div class="filter-group date">
+                    <label>From Date</label>
+                    <input type="date" id="filterStartDate">
+                </div>
+                <div class="filter-group date">
+                    <label>To Date</label>
+                    <input type="date" id="filterEndDate">
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-primary" onclick="applyFilters()" title="Apply current filters">
+                        <i class="fas fa-filter"></i> Apply
+                    </button>
+                    <button class="btn-secondary" onclick="resetFilters()" title="Reset all filters">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                    <button class="btn-outline" onclick="refreshData()" title="Refresh current data">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn-outline" onclick="exportCurrentView()" title="Export filtered data as CSV">
+                        <i class="fas fa-file-export"></i> Export CSV
+                    </button>
+                    <button class="btn-outline" onclick="exportAllData()" title="Export all data (ignoring filters)">
+                        <i class="fas fa-download"></i> Export All
+                    </button>
+                </div>
+            </div>
+
+            <div id="diseases-analytics" class="analytics-content active">
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Top Diseases Analysis</h3>
+                        <button class="btn-icon" onclick="exportChart('diseasesChart', 'diseases_analysis')" title="Export chart as image">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    <canvas id="diseasesChart"></canvas>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Disease Name</th>
+                                <th>Category</th>
+                                <th>Severity</th>
+                                <th>Occurrences</th>
+                                <th>Avg Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody id="diseasesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="hospitals-analytics" class="analytics-content">
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Hospital Performance</h3>
+                        <button class="btn-icon" onclick="exportChart('hospitalsChart', 'hospital_performance')" title="Export chart as image">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    <canvas id="hospitalsChart"></canvas>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Hospital Name</th>
+                                <th>Type</th>
+                                <th>City</th>
+                                <th>Patients</th>
+                                <th>Visits</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hospitalsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="geographic-analytics" class="analytics-content">
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>State-wise Distribution</h3>
+                            <button class="btn-icon" onclick="exportChart('stateChart', 'state_distribution')" title="Export chart as image">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                        <canvas id="stateChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Top Cities</h3>
+                            <button class="btn-icon" onclick="exportChart('cityChart', 'top_cities')" title="Export chart as image">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                        <canvas id="cityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="temporal-analytics" class="analytics-content">
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Monthly Trends</h3>
+                        <button class="btn-icon" onclick="exportChart('monthlyChart', 'monthly_trends')" title="Export chart as image">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Quarterly Trends</h3>
+                        <button class="btn-icon" onclick="exportChart('quarterlyChart', 'quarterly_trends')" title="Export chart as image">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    <canvas id="quarterlyChart"></canvas>
+                </div>
+            </div>
+
+            <div id="specializations-analytics" class="analytics-content">
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Specialization Analysis</h3>
+                        <button class="btn-icon" onclick="exportChart('specializationsChart', 'specialization_analysis')" title="Export chart as image">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    <canvas id="specializationsChart"></canvas>
+                </div>
+
+            </div>
+
+            <div id="predictions-analytics" class="analytics-content">
+                <div class="chart-card">
+                    <h3>Train Cost-Risk Model</h3>
+                    <p class="card-subtitle">Build a model to predict if a visit will be high cost.</p>
+                    <button class="btn-primary" onclick="trainModel()" id="trainModelBtn">Train Model</button>
+                    <div class="metrics" id="modelMetrics"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Predict Visit Cost Risk</h3>
+                    <form id="predictionForm" class="prediction-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="number" name="age" value="45">
+                            </div>
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <select name="gender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Visit Type</label>
+                                <select name="visit_type">
+                                    <option value="OPD">OPD</option>
+                                    <option value="Emergency">Emergency</option>
+                                    <option value="IPD">IPD</option>
+                                    <option value="Follow-up">Follow-up</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Method</label>
+                                <select name="payment_method">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Insurance">Insurance</option>
+                                    <option value="Card">Card</option>
+                                    <option value="UPI">UPI</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Specialization</label>
+                                <select name="specialization" id="predictionSpecialization">
+                                    <option value="General Medicine">General Medicine</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Consultation Fee (₹)</label>
+                                <input type="number" name="consultation_fee" value="600">
+                            </div>
+                            <div class="form-group">
+                                <label>Visit Duration (minutes)</label>
+                                <input type="number" name="visit_duration_minutes" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label>Patient State</label>
+                                <select name="state" id="predictionPatientState">
+                                    <option value="Maharashtra">Maharashtra</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hospital State</label>
+                                <select name="hospital_state" id="predictionHospitalState">
+                                    <option value="Maharashtra">Maharashtra</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Predict Risk</button>
+                        <div id="predictionResult" class="prediction-result"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patients Section -->
+        <section id="patients" class="section">
+            <div class="section-header">
+                <h1>Patients Management</h1>
+                <p>View and manage patient records</p>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientsTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="patientsPagination"></div>
+        </section>
+
+        <!-- Visits Section -->
+        <section id="visits" class="section">
+            <div class="section-header">
+                <h1>Patient Visits</h1>
+                <p>View all patient visit records</p>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Visit ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Hospital</th>
+                            <th>Disease</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Cost</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitsTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="visitsPagination"></div>
+        </section>
+
+        <!-- Data Entry Section -->
+        <section id="data-entry" class="section">
+            <div class="section-header">
+                <h1>Data Entry</h1>
+                <p>Add new patients and visits</p>
+            </div>
+            <div class="data-entry-tabs">
+                <button class="tab-btn active" onclick="showDataEntryTab('patient', event)">Add Patient</button>
+                <button class="tab-btn" onclick="showDataEntryTab('visit', event)">Add Visit</button>
+                <button class="tab-btn" onclick="showDataEntryTab('ingestion', event)">Bulk Upload</button>
+            </div>
+
+            <div id="patient-entry" class="data-entry-content active">
+                <form class="entry-form" id="patientForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Patient Name *</label>
+                            <input type="text" name="patient_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Age *</label>
+                            <input type="number" name="age" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender *</label>
+                            <select name="gender" required>
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" name="address">
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="city">
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" name="state">
+                        </div>
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="text" name="pincode">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Patient</button>
+                </form>
+            </div>
+
+            <div id="visit-entry" class="data-entry-content">
+                <form class="entry-form" id="visitForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Patient *</label>
+                            <select name="patient_id" id="visitPatientSelect" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Doctor *</label>
+                            <select name="doctor_id" id="visitDoctorSelect" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Hospital *</label>
+                            <select name="hospital_id" id="visitHospitalSelect" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Disease</label>
+                            <select name="disease_id" id="visitDiseaseSelect">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Visit Type *</label>
+                            <select name="visit_type" required>
+                                <option value="">Select</option>
+                                <option value="OPD">OPD</option>
+                                <option value="Emergency">Emergency</option>
+                                <option value="IPD">IPD</option>
+                                <option value="Follow-up">Follow-up</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Visit Date *</label>
+                            <input type="date" name="visit_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Diagnosis</label>
+                            <textarea name="diagnosis" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Cost *</label>
+                            <input type="number" name="total_cost" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Method *</label>
+                            <select name="payment_method" required>
+                                <option value="">Select</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Insurance">Insurance</option>
+                                <option value="Card">Card</option>
+                                <option value="UPI">UPI</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Visit Duration (minutes)</label>
+                            <input type="number" name="visit_duration_minutes">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Visit</button>
+                </form>
+            </div>
+
+            <div id="ingestion-entry" class="data-entry-content">
+                <div class="download-section">
+                    <h3>Download Files</h3>
+                    <div class="download-buttons">
+                        <div class="download-card">
+                            <h4><i class="fas fa-file-csv"></i> Template File</h4>
+                            <p>Download the CSV template with correct column structure</p>
+                            <a href="/api/ingestion/template" class="btn-download" download>
+                                <i class="fas fa-download"></i> Download Template
+                            </a>
+                        </div>
+                        <div class="download-card">
+                            <h4><i class="fas fa-file-csv"></i> Sample File 1</h4>
+                            <p>Sample data from Maharashtra (Mumbai) - 30 records</p>
+                            <a href="/api/ingestion/sample1" class="btn-download" download>
+                                <i class="fas fa-download"></i> Download Sample 1
+                            </a>
+                        </div>
+                        <div class="download-card">
+                            <h4><i class="fas fa-file-csv"></i> Sample File 2</h4>
+                            <p>Sample data from Delhi/NCR - 30 records</p>
+                            <a href="/api/ingestion/sample2" class="btn-download" download>
+                                <i class="fas fa-download"></i> Download Sample 2
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="entry-form" id="ingestionForm">
+                    <h3>Upload CSV/Excel File</h3>
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label>Select File *</label>
+                            <input type="file" id="ingestionFile" accept=".csv,.xlsx,.xls" required>
+                            <small>Upload CSV or Excel file with patient visit data. Use the template above for correct format.</small>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-upload"></i> Upload &amp; Process
+                    </button>
+                </form>
+                <div class="table-container">
+                    <h3>Ingestion Jobs</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Job ID</th>
+                                <th>File</th>
+                                <th>Total</th>
+                                <th>Success</th>
+                                <th>Failed</th>
+                                <th>Status</th>
+                                <th>Started</th>
+                                <th>Completed</th>
+                                <th>Errors</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingestionJobsBody"></tbody>
+                    </table>
+                </div>
+                <div class="table-container" id="ingestionErrorsContainer" style="display: none;">
+                    <h3>Recent Errors</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Error</th>
+                                <th>Payload</th>
+                                <th>Processed At</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingestionErrorsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
+
